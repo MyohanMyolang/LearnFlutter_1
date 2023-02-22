@@ -8,6 +8,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isStart = false;
+  IconData icon = Icons.play_circle_outline;
+
+  void onClickPlayBtn() {
+    isStart = !isStart;
+    isStart
+        ? icon = Icons.play_circle_outline
+        : icon = Icons.pause_circle_outline;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,10 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
             flex: 3,
             child: Center(
               child: IconButton(
-                icon: const Icon(Icons.play_circle_outline),
+                icon: Icon(icon),
                 iconSize: 100,
                 color: Theme.of(context).cardColor,
-                onPressed: () {},
+                onPressed: onClickPlayBtn,
               ),
             ),
           ),
