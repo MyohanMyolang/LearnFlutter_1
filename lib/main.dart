@@ -1,27 +1,86 @@
-import 'package:app1/screens/home_screen.dart';
+import 'package:app1/screens/home_screens.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const Pomodoro());
+  runApp(const Webtoon());
 }
 
-class Pomodoro extends StatelessWidget {
-  const Pomodoro({super.key});
+enum UserTheme {
+  dark,
+  light,
+}
+
+class Webtoon extends StatefulWidget {
+  const Webtoon({super.key});
+
+  @override
+  State<Webtoon> createState() => _WebtoonState();
+}
+
+class _WebtoonState extends State<Webtoon> {
+  UserTheme theme = UserTheme.dark;
+  final player = AudioPlayer();
+
+  // TODO: 버튼 클릭 시 local File을 통한 audio가 나오도록 한다.
+  // 2023-02-23 16:34:15 버튼 클릭 사운드 변경하기 위해 몇 시간 동안 삽질 하다 포기.
+
+  void onClickSwitch() async {
+    await player.play(AssetSource('audios/Switch.mp3'));
+  }
+
+  void changeDarkMode() {
+    onClickSwitch();
+    setState(() {
+      theme = UserTheme.dark;
+    });
+  }
+
+  void changeLightMode() {
+    onClickSwitch();
+    setState(() {
+      theme = UserTheme.light;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(
-            color: Color(0xFF232B55),
-          ),
+      theme: theme == UserTheme.dark ? customDarkTheme() : customLightTheme(),
+      home: theme == UserTheme.dark
+          ? HomeScreen(
+              changeMode: changeLightMode,
+              modeIcon: Icons.light_mode,
+            )
+          : HomeScreen(
+              changeMode: changeDarkMode,
+              modeIcon: Icons.dark_mode,
+            ),
+    );
+  }
+
+  ThemeData customLightTheme() {
+    return ThemeData.light().copyWith(
+      scaffoldBackgroundColor: Colors.white,
+      appBarTheme: const AppBarTheme().copyWith(
+        actionsIconTheme: const IconThemeData(
+          color: Colors.black,
         ),
-        cardColor: const Color(0xFFF4EDDB),
-        //backgroundColor를 대신하여 쓴 코드이다.
-        scaffoldBackgroundColor: const Color(0xFFE7626C),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.greenAccent,
       ),
-      home: const HomeScreen(),
+    );
+  }
+
+  ThemeData customDarkTheme() {
+    return ThemeData.dark().copyWith(
+      scaffoldBackgroundColor: const Color.fromARGB(255, 29, 30, 30),
+      appBarTheme: const AppBarTheme().copyWith(
+        actionsIconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        backgroundColor: const Color.fromARGB(255, 29, 30, 30),
+      ),
     );
   }
 }
