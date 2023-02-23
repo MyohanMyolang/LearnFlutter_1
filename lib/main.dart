@@ -1,4 +1,5 @@
 import 'package:app1/screens/home_screens.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,16 +20,24 @@ class Webtoon extends StatefulWidget {
 
 class _WebtoonState extends State<Webtoon> {
   UserTheme theme = UserTheme.dark;
+  final player = AudioPlayer();
 
   // TODO: 버튼 클릭 시 local File을 통한 audio가 나오도록 한다.
   // 2023-02-23 16:34:15 버튼 클릭 사운드 변경하기 위해 몇 시간 동안 삽질 하다 포기.
+
+  void onClickSwitch() async {
+    await player.play(AssetSource('audios/Switch.mp3'));
+  }
+
   void changeDarkMode() {
+    onClickSwitch();
     setState(() {
       theme = UserTheme.dark;
     });
   }
 
   void changeLightMode() {
+    onClickSwitch();
     setState(() {
       theme = UserTheme.light;
     });
