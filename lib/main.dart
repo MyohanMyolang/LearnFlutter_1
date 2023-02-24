@@ -15,24 +15,32 @@ class Webtoon extends StatefulWidget {
   const Webtoon({super.key});
 
   @override
-  State<Webtoon> createState() => _WebtoonState();
+  State<Webtoon> createState() => WebtoonState();
 }
 
-class _WebtoonState extends State<Webtoon> {
+class WebtoonState extends State<Webtoon> {
   UserTheme theme = UserTheme.dark;
+  IconData modeIcon = Icons.light_mode;
   final player = AudioPlayer();
 
-  // TODO: 버튼 클릭 시 local File을 통한 audio가 나오도록 한다.
-  // 2023-02-23 16:34:15 버튼 클릭 사운드 변경하기 위해 몇 시간 동안 삽질 하다 포기.
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
 
   void onClickSwitch() async {
-    await player.play(AssetSource('audios/Switch.mp3'));
+    await player.stop();
+    await player.play(
+      AssetSource('audios/Switch.mp3'),
+    );
   }
 
   void changeDarkMode() {
     onClickSwitch();
     setState(() {
       theme = UserTheme.dark;
+      modeIcon = Icons.light_mode;
     });
   }
 
@@ -40,6 +48,7 @@ class _WebtoonState extends State<Webtoon> {
     onClickSwitch();
     setState(() {
       theme = UserTheme.light;
+      modeIcon = Icons.dark_mode;
     });
   }
 
@@ -50,11 +59,11 @@ class _WebtoonState extends State<Webtoon> {
       home: theme == UserTheme.dark
           ? HomeScreen(
               changeMode: changeLightMode,
-              modeIcon: Icons.light_mode,
+              modeIcon: modeIcon,
             )
           : HomeScreen(
               changeMode: changeDarkMode,
-              modeIcon: Icons.dark_mode,
+              modeIcon: modeIcon,
             ),
     );
   }
