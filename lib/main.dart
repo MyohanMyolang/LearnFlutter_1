@@ -22,11 +22,18 @@ class WebtoonState extends State<Webtoon> {
   UserTheme theme = UserTheme.dark;
   IconData modeIcon = Icons.light_mode;
   final player = AudioPlayer();
+  late VoidCallback modeChnage;
 
   @override
   void dispose() {
     player.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    modeChnage = changeLightMode;
   }
 
   void onClickSwitch() async {
@@ -41,6 +48,7 @@ class WebtoonState extends State<Webtoon> {
     setState(() {
       theme = UserTheme.dark;
       modeIcon = Icons.light_mode;
+      modeChnage = changeLightMode;
     });
   }
 
@@ -49,23 +57,18 @@ class WebtoonState extends State<Webtoon> {
     setState(() {
       theme = UserTheme.light;
       modeIcon = Icons.dark_mode;
+      modeChnage = changeDarkMode;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: theme == UserTheme.dark ? customDarkTheme() : customLightTheme(),
-      home: theme == UserTheme.dark
-          ? HomeScreen(
-              changeMode: changeLightMode,
-              modeIcon: modeIcon,
-            )
-          : HomeScreen(
-              changeMode: changeDarkMode,
-              modeIcon: modeIcon,
-            ),
-    );
+        theme: theme == UserTheme.dark ? customDarkTheme() : customLightTheme(),
+        home: HomeScreen(
+          changeMode: modeChnage,
+          modeIcon: modeIcon,
+        ));
   }
 
   ThemeData customLightTheme() {

@@ -21,4 +21,10 @@ class ApiService {
     }
     throw Error();
   }
+
+  static Future<String> getToonAbout(String id) async {
+    final Uri url = Uri.parse("$baseUrl/$id");
+    final response = await http.get(url);
+    return jsonDecode(response.body)['about'];
+  }
 }

@@ -7,7 +7,6 @@ class Webtoon_widget extends StatelessWidget {
     super.key,
     required this.toon,
   });
-
   final WebtoonModel toon;
 
   @override
@@ -18,15 +17,18 @@ class Webtoon_widget extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => DetailScreen(toon: toon),
+            allowSnapshotting: false,
           ),
         );
       },
       child: Column(
         children: [
-          Container(
-            width: 250,
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
+          Hero(
+            tag: toon.id,
+            child: Container(
+              width: 250,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 boxShadow: [
                   BoxShadow(
@@ -38,8 +40,10 @@ class Webtoon_widget extends StatelessWidget {
                         .color!
                         .withOpacity(0.5),
                   )
-                ]),
-            child: Image.network(toon.thumb),
+                ],
+              ),
+              child: Image.network(toon.thumb),
+            ),
           ),
           const SizedBox(
             height: 20,
