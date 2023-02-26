@@ -22,6 +22,7 @@ class Webtoon_widget extends StatelessWidget {
         );
       },
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Hero(
             tag: toon.id,

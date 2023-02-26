@@ -19,6 +19,7 @@ class DetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: Icon(mainState!.modeIcon),
@@ -35,41 +36,54 @@ class DetailScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Hero(
-                tag: toon.id,
-                child: Container(
-                  width: 250,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 15,
-                        offset: const Offset(10, 10),
-                        color: Theme.of(context)
-                            .appBarTheme
-                            .actionsIconTheme!
-                            .color!
-                            .withOpacity(0.5),
-                      )
-                    ],
+      body: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 25,
+        ),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 50,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Hero(
+                  tag: toon.id,
+                  child: Container(
+                    width: 150,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 15,
+                          offset: const Offset(10, 10),
+                          // color: Theme.of(context)
+                          //     .appBarTheme
+                          //     .actionsIconTheme!
+                          //     .color!
+                          //     .withOpacity(0.5),
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .color!
+                              .withOpacity(0.5),
+                        )
+                      ],
+                    ),
+                    child: Image.network(
+                      toon.thumb,
+                      scale: 3,
+                    ),
                   ),
-                  child: Image.network(toon.thumb),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          showAbout(),
-        ],
+              ],
+            ),
+            const SizedBox(height: 30),
+            showAbout(),
+          ],
+        ),
       ),
     );
   }
@@ -79,11 +93,9 @@ class DetailScreen extends StatelessWidget {
       future: ApiService.getToonAbout(toon.id),
       builder: ((context, snapshot) {
         if (snapshot.hasData == true) {
-          return Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 40,
-            ),
-            child: Text(snapshot.data!),
+          return Text(
+            snapshot.data!,
+            style: const TextStyle(fontSize: 18),
           );
         } else {
           return const CircularProgressIndicator();
