@@ -11,6 +11,13 @@ class WebtoonEpisode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          border: Border(
+        top: BorderSide(
+          width: 0.3,
+          color: Theme.of(context).textTheme.bodyLarge!.color!,
+        ),
+      )),
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Row(
         children: [
