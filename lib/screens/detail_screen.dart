@@ -49,12 +49,10 @@ class _DetailScreenState extends State<DetailScreen> {
       body: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 25,
+          vertical: 40,
         ),
         child: Column(
           children: [
-            const SizedBox(
-              height: 50,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -120,7 +118,7 @@ class _DetailScreenState extends State<DetailScreen> {
         return WebtoonEpisode(episodeModel: episode);
       },
       separatorBuilder: (context, index) => const SizedBox(
-        height: 15,
+        height: 8,
       ),
     );
   }
@@ -136,9 +134,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
           return TextButton(
             onPressed: () {
-              print("onPressed");
               if (!isAboutOpen) {
-                print("test");
                 setState(() {
                   isAboutOpen = !isAboutOpen;
                 });
