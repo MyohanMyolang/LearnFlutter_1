@@ -36,27 +36,27 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: FutureBuilder(
-        future: toons,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Column(
-              children: [
-                Expanded(
+      body: Column(
+        children: [
+          FutureBuilder(
+            future: toons,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Expanded(
                   child: makeList(snapshot),
-                ),
-              ],
-            );
-          }
+                );
+              }
 
-          return const Center(
-            child: CircularProgressIndicator(
-              strokeWidth: 5,
-              backgroundColor: Colors.cyanAccent,
-              color: Colors.grey,
-            ),
-          );
-        },
+              return const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 5,
+                  backgroundColor: Colors.cyanAccent,
+                  color: Colors.grey,
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
       itemCount: snapshot.data!.length,
       itemBuilder: (context, index) {
         var toon = snapshot.data![index];
-        return Webtoon_widget(toon: toon);
+        return WebtoonWidget(toon: toon);
       },
       separatorBuilder: (context, index) => const SizedBox(width: 40),
     );

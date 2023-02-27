@@ -2,8 +2,8 @@ import "package:app1/models/webtoon_model.dart";
 import "package:app1/screens/detail_screen.dart";
 import "package:flutter/material.dart";
 
-class Webtoon_widget extends StatelessWidget {
-  const Webtoon_widget({
+class WebtoonWidget extends StatelessWidget {
+  const WebtoonWidget({
     super.key,
     required this.toon,
   });
