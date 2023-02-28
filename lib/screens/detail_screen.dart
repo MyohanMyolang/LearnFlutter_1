@@ -115,7 +115,10 @@ class _DetailScreenState extends State<DetailScreen> {
       itemCount: data.length,
       itemBuilder: (context, index) {
         var episode = data[index];
-        return WebtoonEpisode(episodeModel: episode);
+        return WebtoonEpisode(
+          episodeModel: episode,
+          toonId: widget.toon.id,
+        );
       },
       separatorBuilder: (context, index) => const SizedBox(
         height: 8,
