@@ -2,6 +2,7 @@ import 'package:app1/models/webtoon_episode_model.dart';
 import 'package:app1/models/webtoon_model.dart';
 import 'package:app1/widgets/webtoon_episode.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 import '../services/api_service.dart';
@@ -22,6 +23,44 @@ class _DetailScreenState extends State<DetailScreen> {
   String aboutSplited = "";
   bool isAboutOpen = false;
   String about = "";
+  late SharedPreferences prefs;
+  bool isLiked = false;
+
+  Future initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    final likedToons = prefs.getStringList('likedToons');
+    if (likedToons != null) {
+      if (likedToons.contains(widget.toon.id) == true) {
+        setState(() {
+          isLiked = true;
+        });
+      }
+    } else {
+      await prefs.setStringList('likedToons', []);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initPrefs();
+  }
+
+  onHeartTap() async {
+    prefs = await SharedPreferences.getInstance();
+    final likedToons = prefs.getStringList('likedToons');
+    if (likedToons != null) {
+      if (isLiked) {
+        likedToons.remove(widget.toon.id);
+      } else {
+        likedToons.add(widget.toon.id);
+      }
+      await prefs.setStringList('likedToons', likedToons);
+      setState(() {
+        isLiked = !isLiked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +70,12 @@ class _DetailScreenState extends State<DetailScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
+          IconButton(
+            onPressed: onHeartTap,
+            icon: isLiked
+                ? const Icon(Icons.favorite)
+                : const Icon(Icons.favorite_outline),
+          ),
           IconButton(
             icon: Icon(mainState!.modeIcon),
             onPressed: mainState.modeChnage,
